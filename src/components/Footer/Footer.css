@@ -1,0 +1,93 @@
+.footer {
+  background: var(--card-bg);
+  color: var(--text);
+  padding: 3rem 0 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer__content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+/* Brand */
+.footer__logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.footer__desc {
+  margin-top: 0.5rem;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+/* Links */
+.footer__links h4,
+.footer__contact h4,
+.footer__social h4 {
+  margin-bottom: 0.8rem;
+}
+
+.footer__links a {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+  opacity: 0.7;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.footer__links a:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+
+/* Contact */
+.footer__contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+/* Social */
+.footer__social-icons {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.footer__social-icons a {
+  font-size: 1.2rem;
+  color: var(--text);
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.footer__social-icons a:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+
+/* Bottom */
+.footer__bottom {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer__content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .footer__content {
+    grid-template-columns: 1fr;
+  }
+}
