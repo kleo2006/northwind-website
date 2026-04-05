@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
 import { HiMail, HiLocationMarker } from "react-icons/hi";
-
 import "./Footer.css";
 
 const fadeInUp = {
@@ -12,6 +12,15 @@ const fadeInUp = {
     transition: { duration: 0.5, ease: "easeOut" },
   },
 };
+
+const NAV_LINKS = [
+  { label: "Home",     to: "/"        },
+  { label: "Services", to: "/services" },
+  { label: "Pricing",  to: "/pricing"  },
+  { label: "Team",     to: "/team"     },
+  { label: "Blog",     to: "/blog"     },
+  { label: "Contact",  to: "/contact"  },
+];
 
 export default function Footer() {
   return (
@@ -26,7 +35,10 @@ export default function Footer() {
         >
           {/* Brand */}
           <div className="footer__brand">
-            <h3 className="footer__logo">NorthWind</h3>
+            <Link to="/" className="footer__logo">
+              <span className="footer__logo-mark"></span>
+              North<span className="accent">Wind</span>
+            </Link>
             <p className="footer__desc">
               Delivering cutting-edge IT solutions and consulting services to
               help businesses scale and innovate.
@@ -36,12 +48,9 @@ export default function Footer() {
           {/* Navigation */}
           <div className="footer__links">
             <h4>Company</h4>
-            <a href="/">Home</a>
-            <a href="/services">Services</a>
-            <a href="/pricing">Pricing</a>
-            <a href="/team">Team</a>
-            <a href="/blog">Blog</a>
-            <a href="/contact">Contact</a>
+            {NAV_LINKS.map(({ label, to }) => (
+              <Link key={to} to={to}>{label}</Link>
+            ))}
           </div>
 
           {/* Contact Info */}
@@ -61,13 +70,13 @@ export default function Footer() {
           <div className="footer__social">
             <h4>Follow Us</h4>
             <div className="footer__social-icons">
-              <a href="#" aria-label="LinkedIn">
+              <a href="#" aria-label="LinkedIn" target="_blank" rel="noreferrer">
                 <FaLinkedin />
               </a>
-              <a href="#" aria-label="Twitter">
+              <a href="#" aria-label="Twitter" target="_blank" rel="noreferrer">
                 <FaTwitter />
               </a>
-              <a href="#" aria-label="GitHub">
+              <a href="#" aria-label="GitHub" target="_blank" rel="noreferrer">
                 <FaGithub />
               </a>
             </div>
