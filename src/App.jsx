@@ -54,7 +54,9 @@ import Blog from "./components/Blog/Blog";
 import BlogPost from "./components/Blog/BlogPost";
 import Contact from "./components/ContactForm/ContactForm";
 import Footer from "./components/Footer/Footer";
+
 import ScrollToTop from "./components/ScrollToTop";
+import WhatsApp from "./components/Whatsapp/Whatsapp";
 
 function App() {
   return (
@@ -85,6 +87,7 @@ function App() {
           <Route path="*" element={<div className="container section">Page not found</div>} />
         </Routes>
       </main>
+      <WhatsApp/>
       <Footer />
     </>
   );
