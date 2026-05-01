@@ -56,7 +56,8 @@ import Contact from "./components/ContactForm/ContactForm";
 import Footer from "./components/Footer/Footer";
 
 import ScrollToTop from "./components/ScrollToTop";
-import WhatsApp from "./components/Whatsapp/Whatsapp";
+import WhatsApp from "./components/WhatsApp/wa";
+
 
 function App() {
   return (

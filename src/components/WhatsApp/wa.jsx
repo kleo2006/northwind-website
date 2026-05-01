@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
-import "./WhatsApp.css";
+import "./wa.css";
 
 const WHATSAPP_NUMBER = "355683068605"; // Replace with real number
 const WHATSAPP_MESSAGE = "Hello! I'm interested in NorthWind's IT services. Can we talk?";
