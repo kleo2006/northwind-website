@@ -103,7 +103,7 @@ export default function Footer() {
             <ContactEmail />
             <div className="footer__contact-item">
               <HiLocationMarker />
-              <span>Global Remote Team</span>
+              <span>Tirana, Albania</span>
             </div>
           </div>
 

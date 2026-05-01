@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { HiArrowRight, HiClock, HiTag } from "react-icons/hi";
 import "./Blog.css";
+import {  useNavigate } from "react-router-dom";
 
 const POSTS = [
   {
@@ -200,7 +201,7 @@ export default function Blog() {
         </motion.div>
 
         {/* CTA */}
-        <motion.div
+        {/* <motion.div
           className="blog__cta"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -211,8 +212,25 @@ export default function Blog() {
             View all articles
             <HiArrowRight />
           </Link>
-        </motion.div>
-
+        </motion.div> */}
+         <motion.div
+  className="blog__cta"
+  initial={{ opacity: 0, y: 16 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5, delay: 0.2 }}
+>
+  <button
+    className="blog__cta-btn"
+    onClick={() => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      window.location.href = "/blog";
+    }}
+  >
+    View all articles
+    <HiArrowRight />
+  </button>
+</motion.div>
       </div>
     </section>
   );

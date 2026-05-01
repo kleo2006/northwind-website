@@ -108,6 +108,20 @@
   word-break: keep-all;
   overflow-wrap: normal;
 } 
+   .hero__headline-wrap {
+  display: block;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.hero__headline--in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero__headline--out {
+  opacity: 0;
+  transform: translateY(-10px);
+}
   
  
 

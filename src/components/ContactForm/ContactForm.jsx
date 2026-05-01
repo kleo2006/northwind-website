@@ -29,7 +29,7 @@ const INFO = [
   {
     icon: <HiLocationMarker />,
     label: "Location",
-    value: "Global Remote Team",
+    value: "Tirana , Albania",
     sub: "Serving clients worldwide",
   },
   {

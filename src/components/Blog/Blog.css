@@ -288,6 +288,11 @@
   color: var(--accent);
   transform: translateY(-2px);
 }
+  button.blog__cta-btn {
+  border: none;
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
+}
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
