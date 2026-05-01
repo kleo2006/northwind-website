@@ -17,7 +17,7 @@ function App() {
       <main>
         <Routes>
 
-          {/* ── Home (all sections) ── */}
+          
           <Route path="/" element={
             <>
               <Hero />
@@ -29,7 +29,7 @@ function App() {
             </>
           } />
 
-          {/* ── Individual Pages ── */}
+         
           <Route path="/services" element={<Services />} />
           <Route path="/pricing"  element={<Pricing />} />
           <Route path="/team"     element={<Team />} />

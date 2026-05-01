@@ -92,14 +92,14 @@
 }
 
 /* ── Title ── */
-/* .hero__title {
+ /* .hero__title {
   font-family: "Syne", sans-serif;
   font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 800;
   line-height: 1.1;
   color: var(--text);
-} */
- .hero__title {
+}  */
+  .hero__title {
   font-family: "Syne", sans-serif;
   font-size: clamp(2.2rem, 3.8vw, 3.8rem);
   font-weight: 800;
@@ -107,8 +107,8 @@
   color: var(--text);
   word-break: keep-all;
   overflow-wrap: normal;
-}
- 
+} 
+  
  
 
 .hero__title-accent {

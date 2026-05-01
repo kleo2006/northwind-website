@@ -171,3 +171,14 @@ input, textarea, select {
     scroll-behavior: auto !important;
   }
 }
+/* ── Main padding for fixed navbar ── */
+main {
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-top: 70px;
+  }
+}

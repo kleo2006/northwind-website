@@ -2,6 +2,8 @@
 .pricing {
   position: relative;
   background-color: var(--bg);
+  overflow: hidden;
+  scroll-margin-top: 80px;
 }
 
 /* ── Header ── */
