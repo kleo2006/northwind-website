@@ -39,12 +39,25 @@ export default function Navbar() {
       <div className="navbar__inner container">
 
         {/* ── Logo ── */}
-        <NavLink to="/" className="navbar__logo" onClick={closeMenu}>
+        {/* <NavLink to="/" className="navbar__logo" onClick={closeMenu}>
           <span className="navbar__logo-mark">N</span>
           <span className="navbar__logo-text">
             North<span className="accent">Wind</span>
           </span>
-        </NavLink>
+        </NavLink> */}
+        <NavLink
+  to="/"
+  className="navbar__logo"
+  onClick={() => {
+    closeMenu();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }}
+>
+  <span className="navbar__logo-mark">N</span>
+  <span className="navbar__logo-text">
+    North<span className="accent">Wind</span>
+  </span>
+</NavLink>
 
         {/* ── Desktop Links ── */}
         <nav className="navbar__links" aria-label="Main navigation">
