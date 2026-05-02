@@ -57,11 +57,10 @@ import Footer from "./components/Footer/Footer";
 import PrivacyPolicy from "./components/Legal/PrivacyPolicy";
 import TermsOfService from "./components/Legal/TermsOfService";
 import CookiePolicy from "./components/Legal/CookiePolicy";
-
-
+import Portfolio from "./components/Portofolio/Portofolio";
+import About from "./components/About/About";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsApp from "./components/WhatsApp/wa";
-
 
 function App() {
   return (
@@ -70,32 +69,33 @@ function App() {
       <Navbar />
       <main>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Hero />
-                <Services />
-                <Pricing />
-                <Team />
-                <Blog />
-                <Contact />
-              </>
-            }
-          />
-          <Route path="/services" element={<Services />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/privacy-policy"   element={<PrivacyPolicy />} />
-<Route path="/terms-of-service" element={<TermsOfService />} />
-<Route path="/cookie-policy"    element={<CookiePolicy />} />
-          <Route path="*" element={<div className="container section">Page not found</div>} />
+          <Route path="/" element={
+            <>
+              <Hero />
+             
+              <Services />
+            
+              <Pricing />
+              <Team />
+              <Blog />
+              <Contact />
+            </>
+          } />
+          <Route path="/services"        element={<Services />} />
+          <Route path="/pricing"         element={<Pricing />} />
+          <Route path="/team"            element={<Team />} />
+          <Route path="/blog/:slug"      element={<BlogPost />} />
+          <Route path="/blog"            element={<Blog />} />
+          <Route path="/contact"         element={<Contact />} />
+          <Route path="/portfolio"       element={<Portfolio />} />
+          <Route path="/about"           element={<About />} />
+          <Route path="/privacy-policy"  element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/cookie-policy"   element={<CookiePolicy />} />
+          <Route path="*"                element={<div className="container section">Page not found</div>} />
         </Routes>
       </main>
-      <WhatsApp/>
+      <WhatsApp />
       <Footer />
     </>
   );
