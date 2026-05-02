@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { HiArrowRight, HiClock, HiTag } from "react-icons/hi";
 import "./Blog.css";
-import {  useNavigate } from "react-router-dom";
+
 
 const POSTS = [
   {

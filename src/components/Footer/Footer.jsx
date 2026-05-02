@@ -127,11 +127,11 @@ export default function Footer() {
         {/* Bottom */}
         <div className="footer__bottom">
           <p>© {new Date().getFullYear()} NorthWind. All rights reserved.</p>
-          <div className="footer__bottom-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Cookie Policy</a>
-          </div>
+         <div className="footer__bottom-links">
+  <Link to="/privacy-policy">Privacy Policy</Link>
+  <Link to="/terms-of-service">Terms of Service</Link>
+  <Link to="/cookie-policy">Cookie Policy</Link>
+</div>
         </div>
       </div>
     </footer>

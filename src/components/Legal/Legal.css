@@ -1,0 +1,219 @@
+/* ── Legal Pages ── */
+.legal {
+  min-height: 100vh;
+  padding: 3rem 0 6rem;
+}
+
+.legal__inner {
+  max-width: 800px;
+}
+
+.legal__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 2.5rem;
+  transition: color 0.2s ease;
+}
+
+.legal__back:hover {
+  color: var(--accent);
+}
+
+/* ── Header ── */
+.legal__header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.legal__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.legal__title {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.legal__meta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.legal__intro {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 680px;
+}
+
+/* ── Content ── */
+.legal__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.legal__section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal__section:last-child {
+  border-bottom: none;
+}
+
+.legal__section-title {
+  font-family: "Syne", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.legal__section p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+/* ── Cookie Table ── */
+.legal__cookie-table {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.legal__cookie-row {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: border-color 0.2s ease;
+}
+
+.legal__cookie-row:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.legal__cookie-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.legal__cookie-type {
+  font-family: "Syne", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.legal__cookie-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
+.legal__cookie-badge--required {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.legal__cookie-badge--optional {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.25);
+}
+
+.legal__cookie-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.legal__cookie-examples {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.legal__cookie-examples strong {
+  color: var(--text);
+}
+
+/* ── Footer CTA ── */
+.legal__footer {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.legal__footer p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.legal__cta {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.legal__cta:hover {
+  opacity: 0.75;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .legal__footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .legal__cookie-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

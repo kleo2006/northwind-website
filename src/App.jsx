@@ -54,6 +54,10 @@ import Blog from "./components/Blog/Blog";
 import BlogPost from "./components/Blog/BlogPost";
 import Contact from "./components/ContactForm/ContactForm";
 import Footer from "./components/Footer/Footer";
+import PrivacyPolicy from "./components/Legal/PrivacyPolicy";
+import TermsOfService from "./components/Legal/TermsOfService";
+import CookiePolicy from "./components/Legal/CookiePolicy";
+
 
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsApp from "./components/WhatsApp/wa";
@@ -85,6 +89,9 @@ function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy"   element={<PrivacyPolicy />} />
+<Route path="/terms-of-service" element={<TermsOfService />} />
+<Route path="/cookie-policy"    element={<CookiePolicy />} />
           <Route path="*" element={<div className="container section">Page not found</div>} />
         </Routes>
       </main>

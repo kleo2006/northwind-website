@@ -63,11 +63,53 @@ export default function ContactForm() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    console.log("Form data:", data);
-    setLoading(false);
-    setSubmitted(true);
-    reset();
+
+    const PORTAL_ID = import.meta.env.VITE_HUBSPOT_PORTAL_ID;
+    const FORM_ID = import.meta.env.VITE_HUBSPOT_FORM_ID;
+
+    const nameParts = data.name.trim().split(" ");
+    const firstname = nameParts[0] || data.name;
+    const lastname = nameParts.slice(1).join(" ") || "-";
+
+    const payload = {
+      fields: [
+        { name: "firstname", value: firstname },
+        { name: "lastname",  value: lastname  },
+        { name: "email",     value: data.email },
+        { name: "company",   value: data.company },
+        { name: "message",   value: data.message },
+      ],
+      context: {
+        pageUri:  window.location.href,
+        pageName: "NorthWind Contact Form",
+      },
+    };
+
+    try {
+      const response = await fetch(
+        "https://api.hsforms.com/submissions/v3/integration/submit/" +
+        PORTAL_ID + "/" + FORM_ID,
+        {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body:    JSON.stringify(payload),
+        }
+      );
+
+      if (response.ok) {
+        setSubmitted(true);
+        reset();
+      } else {
+        const err = await response.json();
+        console.error("HubSpot error:", err);
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      alert("Network error. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
