@@ -62,6 +62,10 @@ import About from "./components/About/About";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsApp from "./components/WhatsApp/wa";
 import Testimonials from "./components/Testimonials/Testimonials";
+import FAQ from "./components/FAQ/FAQ";
+
+import ExitModal from "./components/ExitModal/ExitModal";
+
 
 function App() {
   return (
@@ -77,9 +81,9 @@ function App() {
               <Services />
             
               <Pricing />
+              <FAQ/>
               <Testimonials/>
               <Team />
-              <Blog />
               <Contact />
             </>
           } />
@@ -99,6 +103,8 @@ function App() {
         </Routes>
       </main>
       <WhatsApp />
+      <ExitModal/>
+     
       <Footer />
     </>
   );
