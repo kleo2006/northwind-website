@@ -276,6 +276,11 @@
     flex: 1;
     min-width: fit-content;
     justify-content: center;
+    gap: 0.45rem;      /* ← gap between label and count badge */
+  }
+
+  .faq__cat-count {
+    flex-shrink: 0;
   }
 }
 

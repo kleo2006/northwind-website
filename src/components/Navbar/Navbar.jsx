@@ -7,8 +7,9 @@ import "./Navbar.css";
 
 const NAV_LINKS = [
   
-  { label: "Services", to: "/services" },
+  
   {label: "Testimonials", to:"/testimonials"},
+  {label: "Blog", to:"/blog"},
   { label: "Pricing",  to: "/pricing" },
   { label: "About",    to:"/about"  },
   { label: "Portfolio",to:"/portfolio"  },

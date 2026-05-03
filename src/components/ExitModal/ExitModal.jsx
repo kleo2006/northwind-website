@@ -1,61 +1,42 @@
 import { useState, useEffect, useRef } from "react";
 import "./ExitModal.css";
 
-/* ─── Icons ──────────────────────────────────────────────────── */
-const ClockIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
-    stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <polyline points="12 6 12 12 16 14" />
-  </svg>
-);
-
-const UsersIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-    stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>
-);
-
-const CheckBigIcon = () => (
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
-    stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-);
-
-/* ─── Data ───────────────────────────────────────────────────── */
 const BENEFITS = [
-  "ROI Calculator Tool ($197 value)",
-  "47-Point Website Audit Checklist",
-  "Conversion Optimization Guide",
+  "Full IT Infrastructure Audit ($497 value)",
+  "Personalized Technology Roadmap",
+  "Security Vulnerability Assessment",
+  "Cost Optimization Recommendations",
 ];
 
-/* ─── Component ──────────────────────────────────────────────── */
 export default function ExitModal() {
-  // Hidden by default — triggered by timer or exit intent
   const [visible, setVisible]     = useState(false);
   const [email, setEmail]         = useState("");
   const [submitted, setSubmitted] = useState(false);
   const inputRef                  = useRef(null);
 
-  /* Trigger: fires once per page load, no sessionStorage guard */
   useEffect(() => {
+    // ── FIX 1: Clear sessionStorage gate during development ──
+    // Remove the next line in production if you want once-per-session behaviour
+    sessionStorage.removeItem("nw-exit-modal");
+
+    const shown = sessionStorage.getItem("nw-exit-modal");
+    if (shown) return;
+
     let triggered = false;
 
     const trigger = () => {
       if (triggered) return;
       triggered = true;
+      sessionStorage.setItem("nw-exit-modal", "true");
       setVisible(true);
     };
 
-    const timer = setTimeout(trigger, 8000);
+    // ── FIX 2: Reduced timer to 3 s so it's visible quickly ──
+    const timer = setTimeout(trigger, 10000);
 
+    // ── FIX 3: More reliable exit-intent detection ──
     const onMouseLeave = (e) => {
-      if (e.clientY <= 0) trigger();
+      if (e.clientY <= 5) trigger();   // slight tolerance for fast moves
     };
 
     document.addEventListener("mouseleave", onMouseLeave);
@@ -66,18 +47,19 @@ export default function ExitModal() {
     };
   }, []);
 
-  /* Scroll lock */
   useEffect(() => {
     document.body.classList.toggle("em-locked", visible);
     return () => document.body.classList.remove("em-locked");
   }, [visible]);
 
-  /* Close hides modal for current session; refresh resets everything */
   const close = () => setVisible(false);
 
   const submit = (e) => {
     e.preventDefault();
-    if (!email.trim()) { inputRef.current?.focus(); return; }
+    if (!email.trim()) {
+      inputRef.current?.focus();
+      return;
+    }
     setSubmitted(true);
   };
 
@@ -85,77 +67,124 @@ export default function ExitModal() {
 
   return (
     <div className="em-backdrop" onClick={close}>
-      <div className="em-modal" onClick={(e) => e.stopPropagation()}>
-
-        <button className="em-close" onClick={close} aria-label="Close">✕</button>
+      <div
+        className="em-modal"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Free IT Audit Offer"
+      >
+        <button className="em-close" onClick={close} aria-label="Close">
+          ✕
+        </button>
 
         {submitted ? (
           <div className="em-success">
-            <div className="em-success-icon"><CheckBigIcon /></div>
-            <h3 className="em-success-title">You're all set!</h3>
+            <div className="em-success-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2.5"
+                strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <h3 className="em-success-title">You are Booked In!</h3>
             <p className="em-success-sub">
-              Check your inbox — your free guide is on its way.
+              Check your inbox. We will send a calendar link within 2 hours
+              to schedule your free IT audit.
             </p>
-            <button className="em-success-btn" onClick={close}>Done</button>
+            <button className="em-success-btn" onClick={close}>
+              Done
+            </button>
           </div>
-
         ) : (
           <>
-            <div className="em-icon-wrap"><ClockIcon /></div>
+            <div className="em-icon-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
 
-            <h2 className="em-title">Wait! Don't Leave Yet</h2>
+            <div className="em-urgency-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2.5"
+                strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              Limited — 3 spots remaining this week
+            </div>
+
+            <h2 className="em-title">
+              Wait! Get a Free IT Audit Before You Go
+            </h2>
+
             <p className="em-sub">
-              Get our FREE Website ROI Calculator &amp; Optimization Guide
+              Our senior engineers will review your IT infrastructure and
+              deliver an honest assessment. Free, no commitment required.
             </p>
 
             <div className="em-proof">
               <div className="em-proof-top">
                 <div className="em-proof-left">
-                  <UsersIcon />
-                  <span className="em-proof-count">2,847 downloads</span>
+                  <div className="em-proof-avatars">
+                    {["JH", "SO", "MB", "CS"].map((i) => (
+                      <div key={i} className="em-proof-avatar">{i}</div>
+                    ))}
+                  </div>
+                  <span className="em-proof-count">
+                    <strong>140+ businesses</strong> booked this month
+                  </span>
                 </div>
-                <span className="em-proof-this">this month</span>
               </div>
               <div className="em-proof-value">
-                Value: <strong>$497</strong> — Yours <strong>FREE</strong>
+                Total value: <strong>$497</strong> — Yours{" "}
+                <strong className="em-free">FREE</strong>
               </div>
               <div className="em-bar-track">
                 <div className="em-bar-fill" />
               </div>
             </div>
 
-            <form onSubmit={submit}>
-              <div className="em-input-wrap">
-                <input
-                  ref={inputRef}
-                  type="email"
-                  className="em-input"
-                  placeholder="Enter your email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" className="em-cta">
-                Get My FREE Guide Now
-              </button>
-            </form>
-
-            <p className="em-trust">
-              No spam. Unsubscribe anytime. We respect your privacy.
-            </p>
-
-            <div className="em-divider" />
-
-            <p className="em-benefits-title">What you'll get:</p>
+            {/* ── FIX 4: Replaced word "checkmark" with real ✓ SVG icon ── */}
             <div className="em-benefits-list">
               {BENEFITS.map((b) => (
-                <div key={b} className="em-benefit-item">{b}</div>
+                <div key={b} className="em-benefit-item">
+                  <span className="em-benefit-check" aria-hidden="true">
+                    <svg width="9" height="9" viewBox="0 0 12 12" fill="none"
+                      stroke="currentColor" strokeWidth="2.5"
+                      strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="1 6 5 10 11 2" />
+                    </svg>
+                  </span>
+                  {b}
+                </div>
               ))}
             </div>
 
+            {/* ── FIX 5: Removed <form> wrapper — use onClick handler instead ── */}
+            <div className="em-input-wrap">
+              <input
+                ref={inputRef}
+                type="email"
+                className="em-input"
+                placeholder="Enter your work email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submit(e)}
+              />
+            </div>
+            <button className="em-cta" onClick={submit}>
+              Claim My Free IT Audit
+            </button>
+
+            <p className="em-trust">
+              No spam. No sales pressure. Unsubscribe anytime.
+            </p>
+
             <button className="em-skip" onClick={close}>
-              No thanks, I don't want free tools
+              No thanks, I do not want a free audit
             </button>
           </>
         )}
