@@ -16,11 +16,13 @@ const fadeInUp = {
 };
 
 const NAV_LINKS = [
-  { label: "Home",     to: "/"         },
+  
   { label: "Services", to: "/services" },
+  { label: "Testimonials", to: "/testimonials" },
+
   { label: "Pricing",  to: "/pricing"  },
-  { label: "Team",     to: "/team"     },
-  { label: "Blog",     to: "/blog"     },
+  { label: "About",     to: "/about"     },
+  { label: "Portofolio",     to: "/portfolio"     },
   { label: "Contact",  to: "/contact"  },
 ];
 

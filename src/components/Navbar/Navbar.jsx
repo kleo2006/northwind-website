@@ -6,8 +6,9 @@ import { useTheme } from "../../context/ThemeContext";
 import "./Navbar.css";
 
 const NAV_LINKS = [
-  { label: "Home",     to: "/" },
+  
   { label: "Services", to: "/services" },
+  {label: "Testimonials", to:"/testimonials"},
   { label: "Pricing",  to: "/pricing" },
   { label: "About",    to:"/about"  },
   { label: "Portfolio",to:"/portfolio"  },

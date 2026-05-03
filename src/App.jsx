@@ -61,6 +61,7 @@ import Portfolio from "./components/Portofolio/Portofolio";
 import About from "./components/About/About";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsApp from "./components/WhatsApp/wa";
+import Testimonials from "./components/Testimonials/Testimonials";
 
 function App() {
   return (
@@ -76,6 +77,7 @@ function App() {
               <Services />
             
               <Pricing />
+              <Testimonials/>
               <Team />
               <Blog />
               <Contact />
@@ -83,6 +85,7 @@ function App() {
           } />
           <Route path="/services"        element={<Services />} />
           <Route path="/pricing"         element={<Pricing />} />
+          <Route path="/testimonials"   element={<Testimonials/>}/>
           <Route path="/team"            element={<Team />} />
           <Route path="/blog/:slug"      element={<BlogPost />} />
           <Route path="/blog"            element={<Blog />} />
