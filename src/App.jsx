@@ -66,7 +66,7 @@ import FAQ from "./components/FAQ/FAQ";
 
 import ExitModal from "./components/ExitModal/ExitModal";
 import TrustBar from "./components/TrustBar/TrustBar";
-import CookieConsent from "./components/CookieConsent/CookieConsent";
+
 
 
 
