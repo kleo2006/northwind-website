@@ -1,0 +1,158 @@
+/* ── Shell ── */
+.trustbar {
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  background: var(--card-bg);
+ 
+}
+
+/* ── Grid ── */
+.trustbar__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Stat cell ── */
+.trustbar__stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px;
+  position: relative;
+  cursor: default;
+  transition: background 0.18s ease;
+}
+
+/* vertical separator — pseudo instead of an element */
+.trustbar__stat:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.5px;
+  height: 36px;
+  background: var(--border);
+}
+
+.trustbar__stat:hover {
+  background: color-mix(in srgb, var(--stat-color) 5%, transparent);
+}
+
+/* ── Icon ── */
+.trustbar__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--stat-color) 12%, transparent);
+  color: var(--stat-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+
+.trustbar__stat:hover .trustbar__icon {
+  transform: scale(1.08);
+}
+
+/* ── Text ── */
+.trustbar__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.trustbar__value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--stat-color);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.trustbar__label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ── Tablet → 3×2 grid with cell borders ── */
+@media (max-width: 900px) {
+  .trustbar__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* kill the pseudo separator — use cell borders instead */
+  .trustbar__stat::after {
+    display: none;
+  }
+
+  .trustbar__stat {
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    padding: 18px 16px;
+  }
+
+  /* remove right border on last column */
+  .trustbar__stat:nth-child(3n) {
+    border-right: none;
+  }
+
+  /* remove bottom border on last row */
+  .trustbar__stat:nth-child(n + 4) {
+    border-bottom: none;
+  }
+}
+
+/* ── Mobile → 2×3 grid ── */
+@media (max-width: 520px) {
+  .trustbar__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+
+  .trustbar__stat {
+    padding: 15px 13px;
+    gap: 10px;
+    /* reset nth rules from tablet before re-applying */
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .trustbar__stat:nth-child(3n) {
+    border-right: 0.5px solid var(--border); /* undo tablet rule */
+  }
+
+  .trustbar__stat:nth-child(2n) {
+    border-right: none;
+  }
+
+  .trustbar__stat:nth-child(n + 4) {
+    border-bottom: 0.5px solid var(--border); /* undo tablet rule */
+  }
+
+  .trustbar__stat:nth-child(n + 5) {
+    border-bottom: none;
+  }
+
+  .trustbar__icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+
+  .trustbar__value {
+    font-size: 0.9rem;
+  }
+
+  .trustbar__label {
+    font-size: 0.68rem;
+  }
+}

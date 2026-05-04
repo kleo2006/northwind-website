@@ -10,10 +10,11 @@ const NAV_LINKS = [
   
   {label: "Testimonials", to:"/testimonials"},
   {label: "Blog", to:"/blog"},
+  
   { label: "Pricing",  to: "/pricing" },
   { label: "About",    to:"/about"  },
   { label: "Portfolio",to:"/portfolio"  },
-  { label: "Contact",  to: "/contact" },
+  
 ];
 
 export default function Navbar() {

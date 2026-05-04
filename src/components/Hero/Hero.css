@@ -7,6 +7,25 @@
   overflow: hidden;
   padding: 7rem 0 5rem;
 }
+.hero__btn--audit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.hero__btn--audit:hover {
+  background: var(--accent);
+  color: #fff;
+}
 
 /* ── Grid Background ── */
 .hero__grid {
