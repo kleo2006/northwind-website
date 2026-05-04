@@ -350,6 +350,7 @@
   color: var(--cc-muted);
   cursor: pointer;
   display: flex;
+  margin-right:8px;
   align-items: center;
   justify-content: center;
   transition: background var(--cc-transition), color var(--cc-transition),
