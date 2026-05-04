@@ -319,10 +319,28 @@
 }
 
 /* ---------- Close button ---------- */
-.cc__close {
+/* .cc__close {
   position: absolute;
   top: 0;
   right: 0;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: var(--cc-radius-sm);
+  border: 1px solid var(--cc-border);
+  background: var(--cc-bg-panel);
+  color: var(--cc-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--cc-transition), color var(--cc-transition),
+    border-color var(--cc-transition);
+} */
+ .cc__close {
+  position: absolute;
+  top: 0;
+  right: 8px; /* was 0 → gives breathing space */
   width: 36px;
   height: 36px;
   min-width: 36px;
