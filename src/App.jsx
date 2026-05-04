@@ -108,7 +108,7 @@ function App() {
       </main>
       <WhatsApp />
       <ExitModal/>
-      <CookieConsent/>
+      
      
       <Footer />
     </>
