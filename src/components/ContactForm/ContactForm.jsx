@@ -23,7 +23,7 @@ const INFO = [
   {
     icon: <HiPhone />,
     label: "Call Us",
-    value: "+1 (555) 000-1234",
+    value: "+355 68 306 8605",
     sub: "Mon–Fri, 9am–6pm EST",
   },
   {
