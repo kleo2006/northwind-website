@@ -143,7 +143,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaTwitter, FaGithub, FaInstagram } from "react-icons/fa";
 import { HiMail, HiLocationMarker } from "react-icons/hi";
 import "./Footer.css";
 
@@ -152,7 +152,7 @@ const EMAIL = "contact@northwind.io";
 const SOCIAL_LINKS = [
   { label: "LinkedIn", href: "https://www.linkedin.com", icon: FaLinkedin },
   { label: "Twitter", href: "https://twitter.com", icon: FaTwitter },
-  { label: "GitHub", href: "https://github.com", icon: FaGithub },
+  { label: "Instagram", href: "https://instagram.com/northwind_sites", icon: FaInstagram },
 ];
 
 const NAV_LINKS = [
