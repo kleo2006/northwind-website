@@ -225,6 +225,16 @@
   backdrop-filter: blur(2px);
   z-index: 998;
 }
+/* ── Mobile Menu Logo ── */
+.navbar__mobile-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 24px 16px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 16px;
+}
 
 /* ── Responsive ── */
 @media (max-width: 768px) {

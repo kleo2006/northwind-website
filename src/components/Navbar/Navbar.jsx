@@ -6,30 +6,24 @@ import { useTheme } from "../../context/ThemeContext";
 import "./Navbar.css";
 
 const NAV_LINKS = [
-  
-  
-  {label: "Testimonials", to:"/testimonials"},
-  {label: "Blog", to:"/blog"},
-  
-  { label: "Pricing",  to: "/pricing" },
-  { label: "About",    to:"/about"  },
-  { label: "Portfolio",to:"/portfolio"  },
-  
+  { label: "Testimonials", to: "/testimonials" },
+  { label: "Blog",         to: "/blog" },
+  { label: "Pricing",      to: "/pricing" },
+  { label: "About",        to: "/about" },
+  { label: "Portfolio",    to: "/portfolio" },
 ];
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
-  const [menuOpen, setMenuOpen]   = useState(false);
-  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // Shrink navbar on scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -42,25 +36,19 @@ export default function Navbar() {
       <div className="navbar__inner container">
 
         {/* ── Logo ── */}
-        {/* <NavLink to="/" className="navbar__logo" onClick={closeMenu}>
+        <NavLink
+          to="/"
+          className="navbar__logo"
+          onClick={() => {
+            closeMenu();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
           <span className="navbar__logo-mark">N</span>
           <span className="navbar__logo-text">
             North<span className="accent">Wind</span>
           </span>
-        </NavLink> */}
-        <NavLink
-  to="/"
-  className="navbar__logo"
-  onClick={() => {
-    closeMenu();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }}
->
-  <span className="navbar__logo-mark">N</span>
-  <span className="navbar__logo-text">
-    North<span className="accent">Wind</span>
-  </span>
-</NavLink>
+        </NavLink>
 
         {/* ── Desktop Links ── */}
         <nav className="navbar__links" aria-label="Main navigation">
@@ -80,7 +68,6 @@ export default function Navbar() {
 
         {/* ── Right Controls ── */}
         <div className="navbar__controls">
-          {/* Theme Toggle */}
           <button
             className="navbar__theme-btn"
             onClick={toggleTheme}
@@ -89,12 +76,10 @@ export default function Navbar() {
             {theme === "dark" ? <HiSun size={20} /> : <HiMoon size={20} />}
           </button>
 
-          {/* CTA */}
           <NavLink to="/contact" className="navbar__cta" onClick={closeMenu}>
             Get a Quote
           </NavLink>
 
-          {/* Hamburger */}
           <button
             className="navbar__hamburger"
             onClick={() => setMenuOpen((prev) => !prev)}
@@ -111,6 +96,21 @@ export default function Navbar() {
         className={`navbar__mobile ${menuOpen ? "navbar__mobile--open" : ""}`}
         aria-hidden={!menuOpen}
       >
+        {/* ── Mobile Menu Logo ── */}
+        <NavLink
+          to="/"
+          className="navbar__mobile-logo"
+          onClick={() => {
+            closeMenu();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <span className="navbar__logo-mark">N</span>
+          <span className="navbar__logo-text">
+            North<span className="accent">Wind</span>
+          </span>
+        </NavLink>
+
         <nav className="navbar__mobile-links">
           {NAV_LINKS.map(({ label, to }) => (
             <NavLink

@@ -140,6 +140,7 @@ import ExitModal from "./components/ExitModal/ExitModal";
 import TrustBar from "./components/TrustBar/TrustBar";
 import SEO from "./components/SEO/SEO";
 
+
 const HOME_SEO = {
   description: "NorthWind delivers enterprise-grade IT services and consulting for growing businesses — cloud migration, cybersecurity, software development, and 24/7 managed IT support.",
   canonical: "/",
@@ -221,8 +222,9 @@ function App() {
               <SEO {...HOME_SEO} />
               <Hero />
               <TrustBar />
-              <Services />
+              
               <Testimonials />
+              <Services/>
               
               <Pricing />
               <Contact />
@@ -277,7 +279,7 @@ function App() {
       </main>
       <WhatsApp />
       <ExitModal />
-      
+     
       <Footer />
     </>
   );
