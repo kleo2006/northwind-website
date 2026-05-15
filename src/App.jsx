@@ -117,6 +117,7 @@
 
 // export default App;
 
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Hero from "./components/Hero/Hero";
@@ -140,6 +141,7 @@ import ExitModal from "./components/ExitModal/ExitModal";
 import TrustBar from "./components/TrustBar/TrustBar";
 import SEO from "./components/SEO/SEO";
 
+const Chatbot = lazy(() => import("./components/Chatbot/Chatbot"));
 
 const HOME_SEO = {
   description: "NorthWind delivers enterprise-grade IT services and consulting for growing businesses — cloud migration, cybersecurity, software development, and 24/7 managed IT support.",
@@ -278,6 +280,9 @@ function App() {
         </Routes>
       </main>
       <WhatsApp />
+      <Suspense fallback={null}>
+        <Chatbot />
+      </Suspense>
       <ExitModal />
      
       <Footer />

@@ -1,8 +1,8 @@
 .whatsapp-btn {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 999;
+  bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  z-index: 997;
   width: 58px;
   height: 58px;
   border-radius: 50%;
@@ -14,6 +14,7 @@
   text-decoration: none;
   box-shadow: 0 4px 24px rgba(37, 211, 102, 0.4);
   cursor: pointer;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .whatsapp-btn__icon {
