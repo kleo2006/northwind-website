@@ -117,6 +117,7 @@
 
 // export default App;
 
+
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
