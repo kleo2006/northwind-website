@@ -6,6 +6,7 @@ import "./Chatbot.css";
 
 export default function Chatbot() {
   const {
+    // Core (Steps 1–3)
     messages,
     isOpen,
     isMinimized,
@@ -13,10 +14,31 @@ export default function Chatbot() {
     isTyping,
     messagesEndRef,
     sendUserMessage,
+    handleQuickReply,   // ← use the one from useChat, not a local override
     closeChat,
     minimizeChat,
     restoreChat,
     toggleChat,
+
+    // Step 4 — Lead Capture
+    isCapturing,
+    currentStep,
+    currentPrompt,
+    currentPlaceholder,
+    stepError,
+    stepProgress,
+    onLeadStepSubmit,
+    onLeadCancel,
+
+    // Step 5 — Human Handoff
+    isHandoffOpen,
+    handoffMode,
+    handoffIsSubmitting,
+    handoffSubmitSuccess,
+    handoffSubmitError,
+    capturedLead,
+    onHandoffClose,
+    onHandoffSubmit,
   } = useChat();
 
   useEffect(() => {
@@ -39,16 +61,7 @@ export default function Chatbot() {
   }, [isOpen, isMinimized]);
 
   const handleSend = useCallback(
-    (text) => {
-      sendUserMessage(text);
-    },
-    [sendUserMessage]
-  );
-
-  const handleQuickReply = useCallback(
-    (id, label) => {
-      sendUserMessage(label, id);
-    },
+    (text) => sendUserMessage(text),
     [sendUserMessage]
   );
 
@@ -71,7 +84,9 @@ export default function Chatbot() {
           tabIndex={-1}
         />
       )}
+
       <ChatWindow
+        // Core
         messages={messages}
         isOpen={isOpen}
         isMinimized={isMinimized}
@@ -82,7 +97,28 @@ export default function Chatbot() {
         onRestore={restoreChat}
         onSend={handleSend}
         onQuickReply={handleQuickReply}
+
+        // Step 4 — Lead Capture
+        isCapturing={isCapturing}
+        currentStep={currentStep}
+        currentPrompt={currentPrompt}
+        currentPlaceholder={currentPlaceholder}
+        stepError={stepError}
+        stepProgress={stepProgress}
+        onLeadStepSubmit={onLeadStepSubmit}
+        onLeadCancel={onLeadCancel}
+
+        // Step 5 — Human Handoff
+        isHandoffOpen={isHandoffOpen}
+        handoffMode={handoffMode}
+        handoffIsSubmitting={handoffIsSubmitting}
+        handoffSubmitSuccess={handoffSubmitSuccess}
+        handoffSubmitError={handoffSubmitError}
+        capturedLead={capturedLead}
+        onHandoffClose={onHandoffClose}
+        onHandoffSubmit={onHandoffSubmit}
       />
+
       <ChatLauncher onClick={toggleChat} unreadCount={unreadCount} isOpen={isOpen} />
     </div>
   );
