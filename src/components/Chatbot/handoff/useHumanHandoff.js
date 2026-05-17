@@ -8,9 +8,62 @@ export const HANDOFF_MODE = Object.freeze({
   LIVECHAT: "livechat",
 });
 
+const PORTAL_ID = import.meta.env.VITE_HUBSPOT_PORTAL_ID;
+const FORM_ID = import.meta.env.VITE_HUBSPOT_FORM_ID;
+const HUBSPOT_ENDPOINT =
+  PORTAL_ID && FORM_ID
+    ? `https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL_ID}/${FORM_ID}`
+    : null;
+
+async function submitToHubSpot(formData) {
+  if (!HUBSPOT_ENDPOINT) {
+    throw new Error("HubSpot credentials are not configured.");
+  }
+
+  const name = (formData.name || "").trim();
+  const nameParts = name.split(/\s+/);
+  const firstname = nameParts[0] || name;
+  const lastname = nameParts.slice(1).join(" ") || "-";
+
+  const payload = {
+    fields: [
+      { name: "firstname", value: firstname },
+      { name: "lastname", value: lastname },
+      { name: "email", value: (formData.email || "").trim() },
+      { name: "company", value: (formData.company || "").trim() },
+      {
+        name: "message",
+        value: [formData.subject, formData.message].filter(Boolean).join(" — ").trim(),
+      },
+    ],
+    context: {
+      pageUri: window.location.href,
+      pageName: "NorthWind Chatbot — Talk to a Human",
+    },
+  };
+
+  const response = await fetch(HUBSPOT_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    let details = "";
+    try {
+      const err = await response.json();
+      details = err?.message || "";
+      console.error("[HubSpot] Submission error:", err);
+    } catch {
+      // no-op
+    }
+    throw new Error(details || "HubSpot submission failed.");
+  }
+}
+
 export function useHumanHandoff({
   defaultMode = HANDOFF_MODE.FORM,
-  bookingUrl = "/book-consultation",
+  bookingUrl = "/contact",
   onBotMessage,
   onFormSubmit,
 } = {}) {
@@ -65,15 +118,7 @@ export function useHumanHandoff({
       setSubmitError("");
 
       try {
-        // Replace with your actual API endpoint
-        // await fetch("/api/contact", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify(formData),
-        // });
-
-        // Simulated delay
-        await new Promise((r) => setTimeout(r, 1200));
+        await submitToHubSpot(formData);
 
         setSubmitSuccess(true);
         setIsSubmitting(false);
@@ -84,9 +129,10 @@ export function useHumanHandoff({
           `Thank you, ${formData.name}. Your message has been received. A NorthWind consultant will contact you at ${formData.email} within one business day.`
         );
       } catch (err) {
-        console.error("[useHumanHandoff] Form submission failed:", err);
+        console.error("[useHumanHandoff] Submission failed:", err);
         setSubmitError(
-          "We could not send your message. Please email us directly at hello@northwind.consulting."
+          err?.message ||
+            "We could not send your message. Please email us directly at contact@northwind.io."
         );
         setIsSubmitting(false);
       }

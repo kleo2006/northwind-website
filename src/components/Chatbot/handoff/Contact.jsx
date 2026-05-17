@@ -13,162 +13,145 @@ export default function Contact({
     email: prefilledData.email || "",
     company: prefilledData.company || "",
     subject: "",
-    message: "",
+    message: prefilledData.challenge || "",
   });
+
+  const [fieldErrors, setFieldErrors] = useState({});
+
+  const validate = () => {
+    const errs = {};
+    if (!formData.name.trim() || formData.name.trim().length < 2)
+      errs.name = "Full name is required.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
+      errs.email = "Valid email is required.";
+    if (!formData.company.trim())
+      errs.company = "Company name is required.";
+    if (!formData.message.trim() || formData.message.trim().length < 10)
+      errs.message = "Message must be at least 10 characters.";
+    return errs;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length > 0) {
+      setFieldErrors(errs);
+      return;
+    }
+    setFieldErrors({});
     onSubmit(formData);
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-      {/* Name */}
-      <div>
-        <label style={{ fontSize: "12px", color: "#666", display: "block", marginBottom: "4px" }}>
-          Name *
-        </label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          disabled={isSubmitting}
-          style={{
-            width: "100%",
-            padding: "8px 12px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            fontSize: "14px",
-            boxSizing: "border-box",
-          }}
-        />
-      </div>
+    <form onSubmit={handleSubmit} className="nw-contact-form" noValidate>
 
-      {/* Email */}
-      <div>
-        <label style={{ fontSize: "12px", color: "#666", display: "block", marginBottom: "4px" }}>
-          Email *
-        </label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          disabled={isSubmitting}
-          style={{
-            width: "100%",
-            padding: "8px 12px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            fontSize: "14px",
-            boxSizing: "border-box",
-          }}
-        />
+      {/* Row: Name + Email */}
+      <div className="nw-contact-form__row">
+        <div className="nw-contact-form__field">
+          <label className="nw-contact-form__label">Full Name *</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            disabled={isSubmitting}
+            placeholder="John Smith"
+            className={`nw-contact-form__input${fieldErrors.name ? " nw-contact-form__input--error" : ""}`}
+          />
+          {fieldErrors.name && (
+            <span className="nw-contact-form__field-error">{fieldErrors.name}</span>
+          )}
+        </div>
+
+        <div className="nw-contact-form__field">
+          <label className="nw-contact-form__label">Email *</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            disabled={isSubmitting}
+            placeholder="john@company.com"
+            className={`nw-contact-form__input${fieldErrors.email ? " nw-contact-form__input--error" : ""}`}
+          />
+          {fieldErrors.email && (
+            <span className="nw-contact-form__field-error">{fieldErrors.email}</span>
+          )}
+        </div>
       </div>
 
       {/* Company */}
-      <div>
-        <label style={{ fontSize: "12px", color: "#666", display: "block", marginBottom: "4px" }}>
-          Company
-        </label>
+      <div className="nw-contact-form__field">
+        <label className="nw-contact-form__label">Company *</label>
         <input
           type="text"
           name="company"
           value={formData.company}
           onChange={handleChange}
           disabled={isSubmitting}
-          style={{
-            width: "100%",
-            padding: "8px 12px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            fontSize: "14px",
-            boxSizing: "border-box",
-          }}
+          placeholder="Acme Corp"
+          className={`nw-contact-form__input${fieldErrors.company ? " nw-contact-form__input--error" : ""}`}
         />
+        {fieldErrors.company && (
+          <span className="nw-contact-form__field-error">{fieldErrors.company}</span>
+        )}
       </div>
 
-      {/* Subject */}
-      <div>
-        <label style={{ fontSize: "12px", color: "#666", display: "block", marginBottom: "4px" }}>
-          Subject *
-        </label>
+      {/* Subject — optional */}
+      <div className="nw-contact-form__field">
+        <label className="nw-contact-form__label">Subject</label>
         <input
           type="text"
           name="subject"
           value={formData.subject}
           onChange={handleChange}
-          required
           disabled={isSubmitting}
           placeholder="e.g., Need IT Security Assessment"
-          style={{
-            width: "100%",
-            padding: "8px 12px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            fontSize: "14px",
-            boxSizing: "border-box",
-          }}
+          className="nw-contact-form__input"
         />
       </div>
 
       {/* Message */}
-      <div>
-        <label style={{ fontSize: "12px", color: "#666", display: "block", marginBottom: "4px" }}>
-          Message *
-        </label>
+      <div className="nw-contact-form__field">
+        <label className="nw-contact-form__label">Message *</label>
         <textarea
           name="message"
           value={formData.message}
           onChange={handleChange}
-          required
           disabled={isSubmitting}
-          placeholder="Tell us more about your IT needs..."
-          rows="4"
-          style={{
-            width: "100%",
-            padding: "8px 12px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            fontSize: "14px",
-            boxSizing: "border-box",
-            fontFamily: "inherit",
-            resize: "vertical",
-          }}
+          placeholder="Tell us about your IT challenge..."
+          rows="3"
+          className={`nw-contact-form__textarea${fieldErrors.message ? " nw-contact-form__input--error" : ""}`}
         />
+        {fieldErrors.message && (
+          <span className="nw-contact-form__field-error">{fieldErrors.message}</span>
+        )}
       </div>
 
-      {/* Error */}
-      {error && (
-        <div style={{ fontSize: "12px", color: "#d32f2f", padding: "8px", backgroundColor: "#ffebee", borderRadius: "4px" }}>
-          {error}
-        </div>
-      )}
+      {/* HubSpot / network error */}
+      {error && <div className="nw-contact-form__error">{error}</div>}
 
-      {/* Submit Button */}
+      {/* Submit */}
       <button
         type="submit"
         disabled={isSubmitting}
-        style={{
-          padding: "10px 16px",
-          backgroundColor: isSubmitting ? "#ccc" : "#0066cc",
-          color: "#fff",
-          border: "none",
-          borderRadius: "4px",
-          fontSize: "14px",
-          fontWeight: "600",
-          cursor: isSubmitting ? "not-allowed" : "pointer",
-        }}
+        className="nw-contact-form__submit"
       >
-        {isSubmitting ? "Sending..." : "Send Message"}
+        {isSubmitting ? (
+          <span className="nw-contact-form__submit-loading">
+            <span /><span /><span />
+          </span>
+        ) : (
+          "Send Message →"
+        )}
       </button>
     </form>
   );

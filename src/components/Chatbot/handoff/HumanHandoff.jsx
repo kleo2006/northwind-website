@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import ContactForm from "./Contact";
 import { HANDOFF_MODE } from "./useHumanHandoff";
+import "./HumanHandoff.css";
 
 export default function HumanHandoff({
   isOpen,
@@ -17,111 +18,70 @@ export default function HumanHandoff({
   const modalRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen && modalRef.current) {
-      modalRef.current.focus();
-    }
+    if (isOpen && modalRef.current) modalRef.current.focus();
   }, [isOpen]);
 
   useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
-    };
+    const handleEscape = (e) => { if (e.key === "Escape" && isOpen) onClose(); };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  if (!isOpen) {
-    return null;
-  }
+  if (!isOpen) return null;
 
   return (
     <>
       {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
-          zIndex: 999,
-        }}
-      />
+      <div className="nw-handoff__backdrop" onClick={onClose} />
 
       {/* Modal */}
       <div
         ref={modalRef}
         tabIndex={-1}
-        style={{
-          position: "fixed",
-          bottom: "100px",
-          right: "20px",
-          width: "360px",
-          maxHeight: "500px",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
-          zIndex: 1000,
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-          animation: "slideUp 0.3s ease-out",
-        }}
+        className="nw-handoff__modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Contact NorthWind"
       >
         {/* Header */}
-        <div
-          style={{
-            padding: "16px",
-            borderBottom: "1px solid #e0e0e0",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <h3 style={{ margin: 0, fontSize: "16px", fontWeight: "600" }}>
-            {mode === HANDOFF_MODE.FORM && "Contact NorthWind"}
-            {mode === HANDOFF_MODE.BOOKING && "Booking..."}
-            {mode === HANDOFF_MODE.LIVECHAT && "Live Chat"}
-          </h3>
+        <div className="nw-handoff__header">
+          <div className="nw-handoff__header-left">
+            <div className="nw-handoff__avatar">N</div>
+            <div>
+              <p className="nw-handoff__title">
+                {mode === HANDOFF_MODE.FORM && "Talk to Our Team"}
+                {mode === HANDOFF_MODE.BOOKING && "Book a Consultation"}
+                {mode === HANDOFF_MODE.LIVECHAT && "Live Support"}
+              </p>
+              <p className="nw-handoff__subtitle">
+                <span className="nw-handoff__status-dot" />
+                Typically responds within 2 hours
+              </p>
+            </div>
+          </div>
           <button
             onClick={onClose}
-            style={{
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              padding: "0",
-              color: "#666",
-            }}
+            className="nw-handoff__close"
             aria-label="Close"
           >
             ×
           </button>
         </div>
 
+        {/* Divider line */}
+        <div className="nw-handoff__divider" />
+
         {/* Content */}
-        <div style={{ padding: "16px", overflowY: "auto", flex: 1 }}>
+        <div className="nw-handoff__body">
           {mode === HANDOFF_MODE.FORM && (
             <>
               {submitSuccess ? (
-                <div
-                  style={{
-                    padding: "16px",
-                    backgroundColor: "#e8f5e9",
-                    borderRadius: "4px",
-                    textAlign: "center",
-                  }}
-                >
-                  <div style={{ fontSize: "14px", color: "#2e7d32", fontWeight: "500" }}>
-                    ✓ Message sent successfully!
-                  </div>
-                  <div style={{ fontSize: "12px", color: "#558b2f", marginTop: "8px" }}>
-                    A consultant will be in touch shortly.
-                  </div>
+                <div className="nw-handoff__success">
+                  <div className="nw-handoff__success-icon">✓</div>
+                  <p className="nw-handoff__success-title">Message Sent</p>
+                  <p className="nw-handoff__success-sub">
+                    A NorthWind consultant will be in touch shortly.
+                  </p>
                 </div>
               ) : (
                 <ContactForm
@@ -135,36 +95,13 @@ export default function HumanHandoff({
           )}
 
           {mode === HANDOFF_MODE.LIVECHAT && (
-            <div style={{ textAlign: "center", padding: "20px 0" }}>
-              <p style={{ color: "#666", fontSize: "14px" }}>
-                Live chat support is coming soon. For now, please fill out the contact form.
-              </p>
+            <div className="nw-handoff__coming-soon">
+              <p>Live chat support is coming soon.</p>
+              <p>Please use the contact form for now.</p>
             </div>
           )}
         </div>
       </div>
-
-      {/* Styles */}
-      <style>{`
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 480px) {
-          [role="dialog"] {
-            width: calc(100% - 20px) !important;
-            bottom: 80px !important;
-            right: 10px !important;
-          }
-        }
-      `}</style>
     </>
   );
 }
