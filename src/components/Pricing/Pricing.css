@@ -347,6 +347,71 @@
 .pricing__note-link:hover {
   opacity: 0.8;
 }
+/* ── Paste these at the bottom of your existing Pricing.css ── */
+
+/* Wrapper holds button + error message */
+.pricing-card__cta-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* Resets browser <button> defaults so it looks identical to the <Link> CTA */
+.pricing-card__cta--btn {
+  appearance: none;
+  border: none; /* border comes from .pricing-card__cta */
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Disabled / loading state */
+.pricing-card__cta--btn:disabled,
+.pricing-card__cta--loading {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none !important;
+}
+
+/* Spinner */
+@keyframes nw-spin {
+  to { transform: rotate(360deg); }
+}
+
+.cta-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: nw-spin 0.7s linear infinite;
+}
+
+/* Error message */
+@keyframes nw-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.pricing-card__cta-error {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  text-align: center;
+  animation: nw-fade-in 0.25s ease;
+}
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {

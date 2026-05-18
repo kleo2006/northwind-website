@@ -1,12 +1,15 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { HiCheck, HiX, HiSparkles } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import "./Pricing.css";
 
+// ── Plan definitions ──────────────────────────────────────────────────────────
+// NOTE: prices here are display-only. The backend PLAN_CATALOG is the real
+// source of truth — the frontend never sends a price to the server.
 const PLANS = [
   {
-    id: "basic",
+    id: "starter",
     name: "Starter",
     badge: null,
     monthlyPrice: 499,
@@ -25,7 +28,7 @@ const PLANS = [
     ],
   },
   {
-    id: "pro",
+    id: "professional",
     name: "Professional",
     badge: "Most Popular",
     monthlyPrice: 1199,
@@ -64,6 +67,7 @@ const PLANS = [
   },
 ];
 
+// ── Animation variants ────────────────────────────────────────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
@@ -74,20 +78,93 @@ const stagger = {
   show:   { transition: { staggerChildren: 0.15 } },
 };
 
-// ── Reusable PricingCard ──────────────────────────────────────────────────
+// ── Checkout button ───────────────────────────────────────────────────────────
+function CheckoutButton({ planId, billing, isPopular }) {
+  const [status, setStatus]     = useState("idle"); // idle | loading | error
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleCheckout = useCallback(async () => {
+    if (status === "loading") return; // prevent double-click
+
+    setStatus("loading");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        // Only send planId and billing — NEVER a price value
+        body: JSON.stringify({ planId, billing }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Unable to start checkout. Please try again.");
+      }
+
+      if (!data.url) {
+        throw new Error("Invalid response from server. Please try again.");
+      }
+
+      // Redirect to Stripe-hosted checkout page
+      window.location.href = data.url;
+
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err.message || "Something went wrong. Please try again or contact support.");
+
+      // Auto-reset after 6 s so the user can retry
+      setTimeout(() => {
+        setStatus("idle");
+        setErrorMsg("");
+      }, 6000);
+    }
+  }, [planId, billing, status]);
+
+  return (
+    <div className="pricing-card__cta-wrapper">
+      <button
+        className={`pricing-card__cta pricing-card__cta--btn${isPopular ? " pricing-card__cta--popular" : ""}${status === "loading" ? " pricing-card__cta--loading" : ""}`}
+        onClick={handleCheckout}
+        disabled={status === "loading"}
+        aria-busy={status === "loading"}
+        aria-label={status === "loading" ? "Processing, please wait…" : `Get started with ${planId} plan`}
+      >
+        {status === "loading" ? (
+          <>
+            <span className="cta-spinner" aria-hidden="true" />
+            Processing…
+          </>
+        ) : (
+          "Get Started"
+        )}
+      </button>
+
+      {status === "error" && errorMsg && (
+        <p className="pricing-card__cta-error" role="alert">
+          {errorMsg}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ── Pricing card ──────────────────────────────────────────────────────────────
 function PricingCard({ plan, isYearly }) {
-  const { name, badge, monthlyPrice, yearlyPrice, description, color, features } = plan;
+  const { id, name, badge, monthlyPrice, yearlyPrice, description, color, features } = plan;
   const isPopular    = !!badge;
+  const isEnterprise = id === "enterprise";
   const displayPrice = isYearly ? yearlyPrice : monthlyPrice;
+  const billing      = isYearly ? "yearly" : "monthly";
 
   return (
     <motion.div
-      className={`pricing-card ${isPopular ? "pricing-card--popular" : ""}`}
+      className={`pricing-card${isPopular ? " pricing-card--popular" : ""}`}
       variants={fadeUp}
       whileHover={{ y: -6, transition: { duration: 0.2 } }}
       style={{ "--card-accent": color }}
     >
-      {/* Popular badge */}
       {badge && (
         <div className="pricing-card__badge">
           <HiSparkles />
@@ -95,14 +172,12 @@ function PricingCard({ plan, isYearly }) {
         </div>
       )}
 
-      {/* Header */}
       <div className="pricing-card__header">
         <div className="pricing-card__dot" />
         <h3 className="pricing-card__name">{name}</h3>
         <p className="pricing-card__desc">{description}</p>
       </div>
 
-      {/* Price */}
       <div className="pricing-card__price">
         {displayPrice ? (
           <>
@@ -118,15 +193,13 @@ function PricingCard({ plan, isYearly }) {
         )}
       </div>
 
-      {/* Divider */}
       <div className="pricing-card__divider" />
 
-      {/* Features */}
       <ul className="pricing-card__features">
         {features.map(({ text, included }) => (
           <li
             key={text}
-            className={`pricing-card__feature ${!included ? "pricing-card__feature--off" : ""}`}
+            className={`pricing-card__feature${!included ? " pricing-card__feature--off" : ""}`}
           >
             <span className="pricing-card__feature-icon">
               {included ? <HiCheck /> : <HiX />}
@@ -136,29 +209,27 @@ function PricingCard({ plan, isYearly }) {
         ))}
       </ul>
 
-      {/* CTA */}
-      <Link
-        to="/contact"
-        className={`pricing-card__cta ${isPopular ? "pricing-card__cta--popular" : ""}`}
-      >
-        {displayPrice ? "Get Started" : "Contact Sales"}
-      </Link>
+      {/* Enterprise → contact page | all others → Stripe checkout */}
+      {isEnterprise ? (
+        <Link to="/contact" className="pricing-card__cta">
+          Contact Sales
+        </Link>
+      ) : (
+        <CheckoutButton planId={id} billing={billing} isPopular={isPopular} />
+      )}
 
-      {/* Glow */}
       <div className="pricing-card__glow" />
     </motion.div>
   );
 }
 
-// ── Main Section ──────────────────────────────────────────────────────────
+// ── Main section ──────────────────────────────────────────────────────────────
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
 
   return (
     <section className="pricing section" id="pricing">
       <div className="container">
-
-        {/* Header */}
         <motion.div
           className="pricing__header"
           initial={{ opacity: 0, y: 24 }}
@@ -175,13 +246,12 @@ export default function Pricing() {
             team today — upgrade anytime as you grow.
           </p>
 
-          {/* Toggle */}
           <div className="pricing__toggle">
             <span className={!isYearly ? "pricing__toggle-label--active" : ""}>
               Monthly
             </span>
             <button
-              className={`pricing__toggle-btn ${isYearly ? "pricing__toggle-btn--on" : ""}`}
+              className={`pricing__toggle-btn${isYearly ? " pricing__toggle-btn--on" : ""}`}
               onClick={() => setIsYearly((p) => !p)}
               aria-label="Toggle billing period"
             >
@@ -194,7 +264,6 @@ export default function Pricing() {
           </div>
         </motion.div>
 
-        {/* Cards */}
         <motion.div
           className="pricing__grid"
           variants={stagger}
@@ -207,7 +276,6 @@ export default function Pricing() {
           ))}
         </motion.div>
 
-        {/* Footer note */}
         <motion.p
           className="pricing__note"
           initial={{ opacity: 0 }}
@@ -220,7 +288,6 @@ export default function Pricing() {
             Talk to our team →
           </Link>
         </motion.p>
-
       </div>
     </section>
   );

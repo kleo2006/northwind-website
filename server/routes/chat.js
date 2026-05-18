@@ -1,12 +1,17 @@
+/* eslint-env node */
 import express from "express";
 import OpenAI from "openai";
 import rateLimit from "express-rate-limit";
 
 const router = express.Router();
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let openai;
+function getOpenAI() {
+  if (!openai) {
+    openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return openai;
+}
 
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000,
@@ -73,7 +78,7 @@ router.post("/chat", limiter, async (req, res) => {
   }
 
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
       max_tokens: 300,
       temperature: 0.5,
