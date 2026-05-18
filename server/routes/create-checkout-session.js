@@ -123,3 +123,23 @@ function isValidEmail(email) {
 }
 
 export default router;
+/**
+ * Cloudflare Pages Function
+ * Route: POST /api/create-checkout-session
+ *
+ * File location in your repo:
+ *   functions/api/create-checkout-session.js
+ *
+ * Cloudflare Pages automatically maps:
+ *   functions/api/create-checkout-session.js  →  /api/create-checkout-session
+ *
+ * Required environment variables (Cloudflare Pages → Settings → Environment Variables):
+ *   STRIPE_SECRET_KEY     →  sk_live_...  (or sk_test_... for testing)
+ *   STRIPE_WEBHOOK_SECRET →  whsec_...
+ *   SITE_URL              →  https://northwind-website-3j7.pages.dev
+ */
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Plan catalogue — SINGLE source of truth for prices.
+// The frontend NEVER sends a price — only a planId string.
+// ─────────────────────────────────────────────────────────────────────────────
